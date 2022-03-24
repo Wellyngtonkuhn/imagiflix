@@ -10,7 +10,7 @@ import Score from '../Score/Score';
 import placeholder from '../../assets/hero.jpg'
 
 
-export default function Hero({ backdrop_path = null, title = 'Avengers Endgame', overview= 'Teste', vote_average = 10}){
+export default function Hero({ backdrop_path = null, title = 'Avengers Endgame', overview = 'Teste', vote_average = 10}){
 
   const {IMAGEURL} = Constants
     
@@ -27,7 +27,7 @@ export default function Hero({ backdrop_path = null, title = 'Avengers Endgame',
           <article className="absolute bottom-0 mb-64 px-8">
             <p className="text-3xl">Assista agora:</p>
             <h2 className="text-6xl font-bold">{title}</h2>
-            <p className="text-base w-28 py-2 ">{overview}</p>
+            <p className="text-base w-32 py-2 ">{overview}</p>
             <p className="text-base">
               Nota
               <Score value={vote_average}/>

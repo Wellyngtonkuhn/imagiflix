@@ -509,9 +509,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: auto;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+}
+
+.mr-4 {
+  margin-right: 1rem;
 }
 
 .ml-8 {
@@ -590,16 +599,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 4rem;
 }
 
-.w-4 {
-  width: 1rem;
+.w-32 {
+  width: 8rem;
 }
 
 .w-64 {
   width: 16rem;
-}
-
-.w-32 {
-  width: 8rem;
 }
 
 .transform {
@@ -613,6 +618,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .grid-flow-col {
   grid-auto-flow: column;
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .grid-cols-2 {
@@ -629,6 +638,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .justify-items-end {
   justify-items: end;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .gap-4 {
@@ -833,6 +846,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hover\:bg-opacity-75:hover {
   --tw-bg-opacity: 0.75;
+}
+
+.hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .hover\:text-black:hover {

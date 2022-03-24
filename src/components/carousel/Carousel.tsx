@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Score from '../Score/Score'
 
+import Constants from '../data/Constants'
 
 import cover1 from '../../assets/movie1.jpg'
 import cover2 from '../../assets/movie2.jpg'
@@ -66,24 +67,29 @@ const mockData: Movie[] = [
 ]
 
 interface Movie {
-    title: string;
-    cover: string;
-    score: string | number
+    title?: string;
+    name?: string;
+    cover?: string;
+    poster_path?: string;
+    vote_average?: string | number
 }
 
 
-const Poster = ({ cover, title, score}: Movie, index: number) =>(
+const Poster = ({ cover, poster_path, title, name, vote_average}: Movie, index: number) =>{
+    const { IMAGEURL } = Constants
+    return (
     <article
     className='relative transition-all duration-500 ease-in-out transform hover:scale-110'
      key={index}>
-        <img src={cover} alt={title} />
-        <div className='poster cursor-pointer absolute inset-0 w-full h-full px-4 py-8 grid place-items-center text-center leading-6 bg-black bg-opacity-75 transition-all duration-500 ease-in-out opacity-0'>
+        <img src={poster_path ?`${IMAGEURL}/w200/${poster_path}` : cover} alt={title} />
+        <div className='poster cursor-pointer absolute inset-0 w-full h-full px-4 py-8 grid place-items-center text-center leading-6 bg-black bg-opacity-75 transition-all duration-500 ease-in-out opacity-0 leading-6'>
+            <h2 className='text-2xl'>{title ? title : name}</h2>
             <FontAwesomeIcon icon={faPlayCircle} size='5x' />
-            <h2 className='text-2xl'>{title}</h2>
-            <Score value={score} />
+            <Score value={vote_average} />
         </div>
     </article>
-)
+    )
+}
 
 
 

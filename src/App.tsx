@@ -8,40 +8,49 @@ import "slick-carousel/slick/slick-theme.css";
 import Hero from "./components/hero/Hero";
 import NavBar from "./components/navbar/NavBar";
 import Carousel from "./components/carousel/Carousel";
-
+import Footer from './footer/Footer';
 
 
 export default function App() {
   const {URL, APISTRING} = Constants
 
 
-
-
   const [movies, setMovies] = useState()
+  const [series, setSeries] = useState()
 
 useEffect(()=>{
   const fetchData = async () => {
-    const response = await fetch(`${URL}/discover/movie${APISTRING}&sort_by=popularity.desc`)
-    const data = await response.json()
-    setMovies(data)
+    const movies = await fetch(`${URL}/discover/movie${APISTRING}&sort_by=popularity.desc`)
+    const moviesDate = await movies.json()
+    setMovies(moviesDate)
+
+    const series = await fetch(`${URL}/discover/tv${APISTRING}&sort_by=popularity.desc`)
+    const seriesDate = await series.json()
+    setSeries(seriesDate)
     
   }
   fetchData()
 },[])
 
-useEffect(()=>{
-  movies && console.log(movies)
-}, [movies])
 
+const getFeaturedMovie = () => movies && movies?.results[0];
 
+const getMovieList = () => {
+  if (movies) {
+    const [featured, ...movieList] = movies?.results;
+    return movieList;
+  }
+  return [];
+};
 
   return (
     <div className="bg-black text-white m-auto font-sans ">
-      {movies && <Hero {...movies?.results[0]}/>}
+      <Hero {...getFeaturedMovie()}/>
       <NavBar />
-      {movies && <Carousel {...movies?.results} />}
-      <Carousel />
-      <Carousel />
+      <Carousel title = 'Filmes Populares' data={getMovieList()} />
+      <Carousel title = 'Série Populares' data={series?.results}/>
+      <Carousel title = 'Placeholder'/>
+      <Footer />
     
     </div>
   );
