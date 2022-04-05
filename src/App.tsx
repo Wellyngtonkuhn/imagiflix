@@ -1,5 +1,6 @@
 import { useState, useEffect} from 'react'
 
+import emitter from './utils/eventEmitter';
 import Constants from './components/data/Constants';
 
 import "slick-carousel/slick/slick.css";
@@ -11,7 +12,15 @@ import NavBar from "./components/navbar/NavBar";
 import Carousel from "./components/carousel/Carousel";
 import Footer from './footer/Footer';
 
+export enum TitleType {
+  Movie = 'movie',
+  Serie = 'tv',
+}
 
+export interface Title {
+  type: TitleType;
+  id: number | string;
+}
 
 export default function App() {
   const {URL, APISTRING} = Constants
@@ -20,8 +29,14 @@ export default function App() {
   const [movies, setMovies] = useState()
   const [series, setSeries] = useState()
   const [loading, setLoading] = useState(true)
+  const [title, setTitle] = useState()
+
+
 
 useEffect(()=>{
+  emitter.addListener(Constants.EVENTS.PosterClick, getTitle);
+
+
   const fetchData = async () => {
     const movies = await fetch(`${URL}/discover/movie${APISTRING}&sort_by=popularity.desc`)
     const moviesDate = await movies.json()
@@ -46,6 +61,16 @@ const getMovieList = () => {
   }
   return [];
 };
+
+const getTitle = async ({ type, id }: Title) => {
+  setLoading(true);
+  const title = await fetch(`${URL}/${type}/${id}${APISTRING}`);
+  const titleData = await title.json();
+  setTitle(titleData);
+  setLoading(false);
+};
+
+useEffect(() => title && console.log(title), [title]);
 
   return (
     <div className="bg-black text-white m-auto font-sans ">

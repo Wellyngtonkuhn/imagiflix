@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Score from '../Score/Score'
 
+import emitter from '../../utils/eventEmitter'
 import Constants from '../data/Constants'
+import { Title, TitleType } from '../../App'
 
 import cover1 from '../../assets/movie1.jpg'
 import cover2 from '../../assets/movie2.jpg'
@@ -71,16 +73,30 @@ interface Movie {
     name?: string;
     cover?: string;
     poster_path?: string;
-    vote_average?: string | number
+    vote_average?: string | number;
+    movie_id?: number | string;
+    id?: number;
 }
 
 
-const Poster = ({ cover, poster_path, title, name, vote_average}: Movie, index: number) =>{
+
+
+const Poster = ({ cover, poster_path, title, name, vote_average, id}: Movie, index: number) =>{
     const { IMAGEURL } = Constants
+
+    const handleClick = () => {
+        const type = title ? TitleType.Movie : TitleType.Serie;
+    
+        emitter.emit(Constants.EVENTS.PosterClick, { type, id });
+      };
+
+
     return (
     <article
     className='relative transition-all duration-500 ease-in-out transform hover:scale-110'
-     key={index}>
+     key={index}
+     onClick={handleClick}
+     >
         <img src={poster_path ?`${IMAGEURL}/w200/${poster_path}` : cover} alt={title} />
         <div className='poster cursor-pointer absolute inset-0 w-full h-full px-4 py-8 grid place-items-center text-center leading-6 bg-black bg-opacity-75 transition-all duration-500 ease-in-out opacity-0 leading-6'>
             <h2 className='text-2xl'>{title ? title : name}</h2>
