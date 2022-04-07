@@ -11,6 +11,7 @@ import Hero from "./components/hero/Hero";
 import NavBar from "./components/navbar/NavBar";
 import Carousel from "./components/carousel/Carousel";
 import Footer from './footer/Footer';
+import Modal from './modal/Modal';
 
 export enum TitleType {
   Movie = 'movie',
@@ -35,7 +36,7 @@ export default function App() {
 
 useEffect(()=>{
   emitter.addListener(Constants.EVENTS.PosterClick, getTitle);
-
+  emitter.addListener(Constants.EVENTS.ModalClose, () => setTitle(undefined))
 
   const fetchData = async () => {
     const movies = await fetch(`${URL}/discover/movie${APISTRING}&sort_by=popularity.desc`)
@@ -70,7 +71,6 @@ const getTitle = async ({ type, id }: Title) => {
   setLoading(false);
 };
 
-useEffect(() => title && console.log(title), [title]);
 
   return (
     <div className="bg-black text-white m-auto font-sans ">
@@ -86,8 +86,8 @@ useEffect(() => title && console.log(title), [title]);
           <NavBar />
           <Carousel title="Filmes Populares" data={getMovieList()} />
           <Carousel title="Série Populares" data={series?.results} />
-          <Carousel title="Placeholder" />
           <Footer />
+          {!loading && title && <Modal {...title} />}
         </>
       )}
     </div>
